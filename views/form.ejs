@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="container narrow">
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">SISTEMA ACADÉMICO</p>
+        <h1><%= title %></h1>
+        <p class="subtitle">Completa los datos de la asignación</p>
+      </div>
+    </header>
+
+    <% if (error) { %><div class="alert error"><%= error %></div><% } %>
+
+    <section class="panel">
+      <form method="POST" action="<%= action %>" class="workload-form">
+        <label for="course">Curso <span>*</span></label>
+        <select id="course" name="course" required>
+          <option value="">Selecciona un curso</option>
+          <% courses.forEach(c => { %>
+            <option value="<%= c.id %>" <%= String(workload.course) === String(c.id) ? "selected" : "" %>>
+              <%= c.name %> (<%= c.code || "sin código" %>)
+            </option>
+          <% }) %>
+        </select>
+
+        <label for="teacher">Docente <span>*</span></label>
+        <select id="teacher" name="teacher" required>
+          <option value="">Selecciona un docente</option>
+          <% teachers.forEach(t => { %>
+            <option value="<%= t.id %>" <%= String(workload.teacher) === String(t.id) ? "selected" : "" %>>
+              <%= t.names %> <%= t.father_surname %> <%= t.mother_surname || "" %>
+            </option>
+          <% }) %>
+        </select>
+
+        <div class="two-columns">
+          <div>
+            <label for="capacity">Capacidad <span>*</span></label>
+            <input id="capacity" name="capacity" type="number" min="1" required value="<%= workload.capacity %>">
+          </div>
+          <div>
+            <label for="group">Grupo</label>
+            <input id="group" name="group" type="text" maxlength="10" placeholder="Ej. A" value="<%= workload.group || "" %>">
+          </div>
+        </div>
+
+        <label for="laboratory">Laboratorio</label>
+        <input id="laboratory" name="laboratory" type="text" maxlength="10" placeholder="Ej. LAB-1" value="<%= workload.laboratory || "" %>">
+
+        <label class="checkbox-label">
+          <input type="checkbox" name="status" <%= workload.status ? "checked" : "" %>>
+          Carga académica activa
+        </label>
+
+        <div class="form-actions">
+          <a class="button" href="/">Cancelar</a>
+          <button class="button primary" type="submit">Guardar</button>
+        </div>
+      </form>
+    </section>
+    <footer>Los campos marcados con * son obligatorios.</footer>
+  </main>
+</body>
+</html>

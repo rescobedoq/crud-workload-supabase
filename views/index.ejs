@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cargas académicas</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="container">
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">SISTEMA ACADÉMICO</p>
+        <h1>Cargas académicas</h1>
+        <p class="subtitle">Asignación de cursos a docentes · PostgreSQL en Supabase</p>
+      </div>
+      <a class="button primary" href="/workloads/new">+ Nueva carga</a>
+    </header>
+
+    <% if (message) { %><div class="alert success"><%= message %></div><% } %>
+    <% if (error) { %><div class="alert error"><%= error %></div><% } %>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <h2>Listado de cargas</h2>
+        <span class="count"><%= workloads.length %> registro(s)</span>
+      </div>
+      <% if (workloads.length === 0) { %>
+        <div class="empty">
+          <h3>No hay cargas académicas</h3>
+          <p>Registra la primera carga para comenzar a probar el CRUD.</p>
+          <a class="button primary" href="/workloads/new">Registrar carga</a>
+        </div>
+      <% } else { %>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th><th>Curso</th><th>Docente</th><th>Capacidad</th>
+                <th>Grupo</th><th>Laboratorio</th><th>Estado</th><th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% workloads.forEach(w => { %>
+                <tr>
+                  <td><%= w.id %></td>
+                  <td><strong><%= w.course_name %></strong><small><%= w.course_code || "" %></small></td>
+                  <td><%= w.teacher_name.trim() %></td>
+                  <td><%= w.capacity %></td>
+                  <td><%= w.grupo || "—" %></td>
+                  <td><%= w.laboratory || "—" %></td>
+                  <td><span class="status <%= w.status ? 'active' : 'inactive' %>"><%= w.status ? "Activo" : "Inactivo" %></span></td>
+                  <td>
+                    <div class="actions">
+                      <a class="button small" href="/workloads/<%= w.id %>/edit">Editar</a>
+                      <form method="POST" action="/workloads/<%= w.id %>/delete"
+                            onsubmit="return confirm('¿Eliminar la carga académica <%= w.id %>?');">
+                        <button class="button small danger" type="submit">Eliminar</button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </section>
+    <footer>Ejemplo educativo · Node.js + Express + Supabase PostgreSQL</footer>
+  </main>
+</body>
+</html>

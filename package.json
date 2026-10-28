@@ -1,0 +1,16 @@
+{
+  "name": "crud-workload-supabase",
+  "version": "1.1.0",
+  "description": "CRUD educativo de cargas académicas con Node.js, Express y Supabase PostgreSQL",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "pg": "^8.13.1"
+  }
+}
